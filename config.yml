@@ -1,0 +1,5 @@
+typewriter-url: "https://at4.typewriter.at" # Falls sich die URL anders sein sollte
+typing:
+  max-delay: 100 # Ms
+  min-delay: 50 # Ms
+  error-quote: 0.025 # The number will be random between 0 and 1 to decide whether an error should occur while typing or not
