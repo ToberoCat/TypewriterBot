@@ -9,6 +9,8 @@ const readline = require('readline').createInterface({
 
 const LoginInfoPath = "../res/login.info";
 
+if (!fs.existsSync("../res")) fs.mkdirSync("../res");
+
 async function getCredentials() {
     if (!fs.existsSync(LoginInfoPath)) {
         const username = await getInput(chalk.blue("[Browser]: Enter your username: "));
