@@ -55,12 +55,13 @@ class TypeWriter {
             const min = config.typing["min-delay"];
 
             const errorQuote = config.typing["error-quote"]
+
             while (text.length > 0) {
                 const chr = text.charAt(0);
-                console.log(chr.charCodeAt(0));
                 if (chr.charCodeAt(0) === 160)
                     await this.page.keyboard.press("Space");
-                else await this.page.type("body", chr);
+                else
+                    await this.__sendFakeKeyPress(chr, chr.charCodeAt(0));
 
                 if (Math.random() <= errorQuote) {
                     await this.page.keyboard.press("Space");
@@ -73,6 +74,31 @@ class TypeWriter {
             resolve();
         })
 
+    }
+
+    async __sendFakeKeyPress(key, keyCode) {
+        await this.page.evaluate((fakeData) => {
+            const fakeEventDown = new KeyboardEvent("keydown", fakeData);
+            const fakeEventUp = new KeyboardEvent("keyup", fakeData);
+            const fakeEventPress = new KeyboardEvent("keypress", fakeData);
+
+            const element = document.getElementById(textInputId);
+            element.dispatchEvent(fakeEventPress);
+        }, this.__createFakeEventData(key, keyCode));
+    }
+
+    __createFakeEventData(key, keyCode) {
+        return {
+            key: key,
+            code: "Key" + key.toUpperCase(),
+            composed: true,
+            keyCode: keyCode,
+            which: keyCode,
+            ctrlKey: false,
+            shiftKey: key === key.toUpperCase(),
+            altKey: false,
+            metaKey: false,
+        };
     }
 
     async __getRemainingText() {
