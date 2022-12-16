@@ -67,7 +67,7 @@ class TypeWriter {
                     await this.page.keyboard.press("Space");
                 }
 
-                await delay(Math.random() * (max - min) + min);
+                //await delay(Math.random() * (max - min) + min);
                 text = await this.__getRemainingText();
             }
 
@@ -83,6 +83,7 @@ class TypeWriter {
             const fakeEventPress = new KeyboardEvent("keypress", fakeData);
 
             const element = document.getElementById(textInputId);
+            console.log("Sent fake key event");
             element.dispatchEvent(fakeEventPress);
         }, this.__createFakeEventData(key, keyCode));
     }
@@ -102,11 +103,8 @@ class TypeWriter {
     }
 
     async __getRemainingText() {
-        const actualElement = await this.page.waitForSelector('#actualLetter');
-        const remainingElement = await this.page.waitForSelector('#remainingText');
-        const actual = await actualElement.evaluate(el => el.textContent);
-        const remaining = await remainingElement.evaluate(el => el.textContent);
-        return actual + remaining;
+        const parentElement = await this.page.waitForSelector("#text_todo");
+        return await parentElement.evaluate(el => el.children[0].textContent + el.children[1].textContent);
     }
 }
 
