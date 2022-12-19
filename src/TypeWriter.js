@@ -67,7 +67,7 @@ class TypeWriter {
                     await this.page.keyboard.press("Space");
                 }
 
-                //await delay(Math.random() * (max - min) + min);
+                await delay(Math.random() * (max - min) + min);
                 text = await this.__getRemainingText();
             }
 
