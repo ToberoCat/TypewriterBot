@@ -37,11 +37,25 @@ class TypeWriter {
         });
     }
 
+    async chooseNextLesson() {
+        await this.page.waitForSelector("a[class='cockpitStartButton']");
+        this.page.$$eval("a[class='cockpitStartButton']", elHandles => elHandles.forEach(el => el.click()))
+    }
+
+    async waitForUserLesson() {
+        await this.page.evaluate(() => {
+            alert("Please select a level that should be solved for you");
+        });
+    }
+
+    async home() {
+        await this.page.waitForNavigation();
+        await this.page.click("div[class='navButtonText']");
+        await this.page.waitForNavigation();
+    }
+
     solveLevel() {
         return new Promise(async (resolve, reject) => {
-            await this.page.evaluate(() => {
-                alert("Please select a level that should be solved for you");
-            });
             await this.page.waitForNavigation();
             const [button] = await this.page.$x("//button[contains(., 'Start')]");
             if (!button) return reject();
@@ -78,8 +92,6 @@ class TypeWriter {
 
     async __sendFakeKeyPress(key, keyCode) {
         await this.page.evaluate((fakeData) => {
-            const fakeEventDown = new KeyboardEvent("keydown", fakeData);
-            const fakeEventUp = new KeyboardEvent("keyup", fakeData);
             const fakeEventPress = new KeyboardEvent("keypress", fakeData);
 
             const element = document.getElementById(textInputId);

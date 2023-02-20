@@ -1,5 +1,8 @@
-typewriter-url: "https://at4.typewriter.at" # Falls sich die URL anders sein sollte
+typewriter-url: "https://at4.typewriter.at" # Falls die URL anders sein sollte
 typing:
-  max-delay: 100 # Ms
-  min-delay: 50 # Ms
-  error-quote: 0.02 # The number will be random between 0 and 1 to decide whether an error should occur while typing or not
+  max-delay: 400 # Ms
+  min-delay: 100 # Ms
+  error-quote: 0.017 # The number will be random between 0 and 1 to decide whether an error should occur while typing or not
+auto-lesson: true
+lesson:
+  max-lesson: -1
